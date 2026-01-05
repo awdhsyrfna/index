@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Drag & Drop – Masalah Kesihatan</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    padding: 15px;
+    margin: 0;
+}
+
+h2 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+/* Container utama (mobile first) */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Tajuk seksyen */
+h3 {
+    text-align: center;
+    font-size: 18px;
+}
+
+/* Item boleh drag */
+.item {
+    padding: 14px;
+    background: #ffffff;
+    border: 2px solid #555;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    cursor: grab;
+    font-size: 16px;
+}
+
+/* Kotak drop */
+.drop-box {
+    background: #e9f1ff;
+    border: 2px dashed #1e40af;
+    border-radius: 12px;
+    padding: 12px;
+    min-height: 100px;
+    margin-bottom: 15px;
+}
+
+.drop-box h4 {
+    text-align: center;
+    margin: 0 0 8px 0;
+    font-size: 16px;
+}
+
+/* Maklum balas */
+.correct {
+    background: #d1fae5;
+    border-color: #059669;
+}
+
+.wrong {
+    background: #fee2e2;
+    border-color: #dc2626;
+}
+
+/* Paparan tablet & desktop */
+@media (min-width: 768px) {
+    .container {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .container > div {
+        width: 45%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<h2>Padankan Masalah Kesihatan dengan Punca / Kesan</h2>
+
+<div class="container">
+
+<!-- SENARAI ITEM -->
+<div>
+    <h3>Punca / Kesan</h3>
+
+    <div class="item" draggable="true" id="obesityCause">
+        Mengambil makanan tinggi kalori untuk jangka masa yang panjang
+    </div>
+
+    <div class="item" draggable="true" id="diabetesEffect">
+        Luka lambat sembuh dan menjejaskan penglihatan
+    </div>
+
+    <div class="item" draggable="true" id="hypertensionCause">
+        Mengambil makanan tinggi kandungan garam untuk jangka masa yang panjang
+    </div>
+
+    <div class="item" draggable="true" id="atherosclerosisEffect">
+        Meningkatkan risiko penyakit jantung dan strok
+    </div>
+
+    <div class="item" draggable="true" id="anorexiaEffect">
+        Malnutrisi dan boleh maut
+    </div>
+</div>
+
+<!-- KOTAK JAWAPAN -->
+<div>
+    <h3>Masalah Kesihatan</h3>
+
+    <div class="drop-box" data-answer="obesityCause">
+        <h4>Obesiti</h4>
+    </div>
+
+    <div class="drop-box" data-answer="anorexiaEffect">
+        <h4>Anoreksia Nervosa</h4>
+    </div>
+
+    <div class="drop-box" data-answer="atherosclerosisEffect">
+        <h4>Aterosklerosis</h4>
+    </div>
+
+    <div class="drop-box" data-answer="diabetesEffect">
+        <h4>Diabetes Melitus</h4>
+    </div>
+
+    <div class="drop-box" data-answer="hypertensionCause">
+        <h4>Tekanan Darah Tinggi (Hipertensi)</h4>
+    </div>
+</div>
+
+</div>
+
+<script>
+let draggedItem = null;
+
+document.querySelectorAll(".item").forEach(item => {
+    item.addEventListener("dragstart", () => {
+        draggedItem = item;
+    });
+});
+
+document.querySelectorAll(".drop-box").forEach(box => {
+    box.addEventListener("dragover", e => {
+        e.preventDefault();
+    });
+
+    box.addEventListener("drop", () => {
+        if (draggedItem.id === box.dataset.answer) {
+            box.classList.add("correct");
+            box.appendChild(draggedItem);
+        } else {
+            box.classList.add("wrong");
+            setTimeout(() => box.classList.remove("wrong"), 800);
+        }
+    });
+});
+</script>
+
+</body>
+</html>
